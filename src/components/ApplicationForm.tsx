@@ -20,6 +20,7 @@ type Props = {
 
 export default function ApplicationForm({ offer }: Props) {
   const [submitted, setSubmitted] = useState(false);
+  const [submittedData, setSubmittedData] = useState<FormData | null>(null);
   const [serverError, setServerError] = useState<string | null>(null);
   const addCandidature = useProfileStore((s) => s.addCandidature);
 
@@ -46,6 +47,7 @@ export default function ApplicationForm({ offer }: Props) {
         message: data.message,
         submittedAt: new Date().toISOString(),
       });
+      setSubmittedData(data);
       setSubmitted(true);
     } else {
       setServerError(result.error ?? "Une erreur est survenue.");
@@ -78,11 +80,25 @@ export default function ApplicationForm({ offer }: Props) {
         </div>
       </form>
 
-      {submitted && (
-        <p className="text-[#1d63ed] font-semibold text-lg mt-4">
-          Merci d&apos;avoir postulé à cette offre,<br />
-          nous reviendrons vers vous très prochainement!
-        </p>
+      {submitted && submittedData && (
+        <div className="mt-4">
+          <p className="text-[#1d63ed] font-semibold text-lg">
+            Merci d&apos;avoir postulé à cette offre,<br />
+            nous reviendrons vers vous très prochainement!
+          </p>
+          <div className="mt-4 border border-gray-200 p-4 text-sm text-[#1a1a2e]">
+            <p className="font-semibold text-[#1d63ed] mb-2">Récapitulatif de votre candidature :</p>
+            <p><span className="font-medium">Offre :</span> {offer.title}</p>
+            {offer.technologies.length > 0 && (
+              <p><span className="font-medium">Technologies :</span> {offer.technologies.map((t) => t.name).join(", ")}</p>
+            )}
+            {offer.admin_emails.length > 0 && (
+              <p><span className="font-medium">Envoyé à :</span> {offer.admin_emails.join(", ")}</p>
+            )}
+            <p className="mt-2"><span className="font-medium">Message :</span></p>
+            <p className="whitespace-pre-wrap mt-1">{submittedData.message}</p>
+          </div>
+        </div>
       )}
     </div>
   );
