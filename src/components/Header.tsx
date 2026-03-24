@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useProfileStore } from "@/store/profileStore";
 
 export default function Header() {
@@ -10,12 +11,8 @@ export default function Header() {
   return (
     <header className="bg-[#0d1b3e] text-white">
       <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 font-bold text-sm tracking-widest">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 4h16v16H4V4z" stroke="white" strokeWidth="2" fill="none"/>
-            <path d="M9 8l-4 4 4 4M15 8l4 4-4 4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-          DEV
+        <Link href="/">
+          <Image src="/logo.png" alt="DEV" height={32} width={80} priority className="brightness-0 invert" />
         </Link>
 
         <nav className="flex items-center gap-3">

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useProfileStore } from "@/store/profileStore";
 import type { JobOffer } from "@/types";
 
@@ -19,7 +20,9 @@ function formatDate(iso: string) {
 
 export default function OfferCard({ offer, unavailable = false }: Props) {
   const { isOfferSaved, saveOffer, removeOffer } = useProfileStore();
-  const saved = isOfferSaved(offer.uid);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const saved = mounted && isOfferSaved(offer.uid);
 
   function toggleSave(e: React.MouseEvent) {
     e.preventDefault();
